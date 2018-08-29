@@ -47,19 +47,22 @@
   <form (submit)="register()">
     <div class="form-group">
       <label for="name">What's Your Name?</label>
-      <input type="text" class="input-block" required minlength="2" maxlength="15" id="name" name="name" [(ngModel)]="newUser.name" #name="ngModel">
+      <input type="text" class="input-block" required minlength="2" maxlength="15" id="name" name="name" [(ngModel)]="newUser.name"
+        #name="ngModel">
     </div>
     <div class="form-group">
       <label for="newEmail">How About An Email?</label>
-      <input type="text" class="input-block" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$" id="newEmail" name="newEmail" [(ngModel)]="newUser.email" #newEmail="ngModel">
+      <input type="text" class="input-block" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$" id="newEmail" name="newEmail"
+        [(ngModel)]="newUser.email" #newEmail="ngModel">
     </div>
     <div class="form-group">
       <label for="newPasssword">Pick a Password</label>
-      <input type="password" class="input-block" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="newPassword" name="newPassword" [(ngModel)]="newUser.password" #newPassword="ngModel">
+      <input type="password" class="input-block" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="newPassword" name="newPassword"
+        [(ngModel)]="newUser.password" #newPassword="ngModel">
     </div>
     <div class="form-group">
       <label for="confirm">Let's Confirm It</label>
-      <input type="password" class="input-block" required  id="confirm" name="confirm" [(ngModel)]="newUser.confirm" #confirm="ngModel">
+      <input type="password" class="input-block" required id="confirm" name="confirm" [(ngModel)]="newUser.confirm" #confirm="ngModel">
     </div>
     <input type="submit" value="Register" class="paper-btn margin">
   </form>
@@ -88,5 +91,10 @@
       </form>
     </div>
   </div>
+
+  <hr>
+  <br>
+  <span class="text-muted">© 2018 Brenden Dowd. Built using the <a href="https://cli.angular.io/">Angular CLI</a> and <a
+      href="https://www.getpapercss.com/">PaperCSS</a> </span>
 
 </div> <!-- end container-->

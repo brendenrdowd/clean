@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="paper container">
   <!-- add a list deletion confirmation warning -->
-  
+  <!-- Need to fix navbar glitch -->
   <!-- error catch -->
   <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
     <div *ngIf="title.errors.minlength">
@@ -33,3 +33,4 @@
     </tr>
   </table>
 </div>
+<app-footer></app-footer>
