@@ -13,24 +13,27 @@ module.exports = function(app){
         Prime.newList(req,res);
     })
 
-    // app.post new list item           
+    app.post('/newItem',(req,res)=>{
+        Prime.newItem(req,res);
+    })          
 
     app.get('/getLists',(req,res)=>{
         Prime.getLists(req,res);
     })
 
     app.get('/viewList/:id',(req,res)=>{
-        Prime.viewList(req,res)
+        Prime.viewList(req,res);
     })
     //should these be posts routes?
     app.get('/deleteList/:id',(req,res)=>{
-        console.log("hitting route")
         Prime.deleteList(req,res);
     })
 
-    //app get delete list by id
+    app.get('/deleteItem/:id',(req,res)=>{
+        Prime.deleteItem(req,res);
+    })
 
-    //app get delete item by id/index?
+    //check
     
     //universal functions
     app.get('/authenticate',(req,res)=>{

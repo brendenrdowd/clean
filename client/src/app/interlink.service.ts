@@ -9,11 +9,13 @@ import { Router } from '@angular/router';
 export class InterlinkService {
   errorMessage: string
   errorArr: string[] = []
-  currentUser:object
-  list:object
-  myLists:object[]=[]
-  listArr:BehaviorSubject<any[]> = new BehaviorSubject([])
-  constructor(private _http: Http,private _router: Router) { }
+  currentUser: object
+  list: object
+  myLists: object[] = []
+  listArr: BehaviorSubject<any[]> = new BehaviorSubject([])
+  constructor(private _http: Http, private _router: Router) {
+    this.list = JSON.parse(localStorage.getItem("list"));
+  }
 
   login(user, cb) {
     this.errorMessage = null;
@@ -39,37 +41,58 @@ export class InterlinkService {
     })
   }
 
-  newList(list,cb){
-    this._http.post('/newList',list).subscribe((res)=>{
+  newList(list, cb) {
+    this._http.post('/newList', list).subscribe((res) => {
       cb(res)
     })
   }
 
-  getLists(cb){
-    this._http.get('/getLists').subscribe((res)=>{
+  getLists(cb) {
+    this._http.get('/getLists').subscribe((res) => {
       this.myLists = res.json();
       this.listArr.next(this.myLists);
       cb();
     })
   }
 
-  viewList(id){
-    this._http.get('/viewList/'+ id).subscribe((res)=>{
+  viewList(id) {
+    this._http.get('/viewList/' + id).subscribe((res) => {
       this.list = res.json();
+      console.log("viewList-back in service:", this.list)
+      localStorage.setItem("list", JSON.stringify(this.list));
       this._router.navigate(['list'])
     })
   }
-  
-  deleteList(id,cb){
-    this._http.get('/deleteList/'+ id).subscribe((res)=>{
+
+  deleteList(id, cb) {
+    this._http.get('/deleteList/' + id).subscribe((res) => {
       this.myLists = [];
       cb()
     })
   }
-  
-  //newItem(){}
 
-  //deleteItem(){}
+  newItem(item, cb) {
+    this._http.post('/newItem', item).subscribe((res) => {
+      cb(res.json())
+    })
+  }
+
+
+  deleteItem(id, cb) {
+    console.log("deleteItem-service:", this.list)
+    this._http.get('/deleteItem/' + id).subscribe((res) => {
+      cb();
+    })
+  }
+
+  updateList(cb) {
+    console.log("updateList-list:", this.list)
+    this.viewList(this.list['_id']);
+    console.log("newItem-after update", this.list)
+    cb()
+  }
+
+  //check
 
   authenticate(cb) {
     this._http.get('/authenticate').subscribe((res) => {

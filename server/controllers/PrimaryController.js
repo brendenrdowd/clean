@@ -1,6 +1,7 @@
-var mongoose = require("mongoose"),
-    User = mongoose.model('User');
-List = mongoose.model('List')
+const mongoose = require("mongoose"),
+    User = mongoose.model('User'),
+    List = mongoose.model('List'),
+    Item = mongoose.model('Item');
 
 //import bcrypt and hash passwords
 
@@ -54,31 +55,49 @@ module.exports = {
         })
     },
 
-    getLists: function (req,res) {
-        List.find({creator:req.session.user._id}).exec(function(err,lists){
+    getLists: function (req, res) {
+        List.find({ creator: req.session.user._id }).exec(function (err, lists) {
             // console.log("controller-user lists:",lists)
             return res.json(lists)
         })
     },
 
-    viewList: function(req,res) {
-        List.findOne({_id:req.params.id}).populate('creator').exec(function(err,list){
-            console.log("viewList:" + list);
+    viewList: function (req, res) {
+        List.findOne({ _id: req.params.id }).populate('items').exec(function (err, list) {
             return res.json(list);
         })
     },
-    
-    deleteList: function(req,res) {
+
+    deleteList: function (req, res) {
         console.log("deleteList", req.params.id)
-        List.findOneAndDelete({_id:req.params.id},function(err,list){
-            if(list){console.log("deleteList:",list)}
+        List.findOneAndDelete({ _id: req.params.id }, function (err, list) {
+            if (list) { console.log("deleteList:", list) }
             return res.json()
         })
     },
 
-    //new Item
+    newItem: function (req, res) {
+        console.log("create item:", req.body)
+        List.findOne({ _id: req.body._list }).exec(function (err, list) {
+            if (err) { console.log("Item-List-Error:", err) }
+            Item.create({ title: req.body.title, _list: list._id, checked: false, creator: req.session.user._id }, function (error, item) {
+                if (error) { console.log("Item-creation Error:", error) } 
+                list.items.push(item);
+                list.save(); 
+                return res.json(item);
+            })
+        })
+    },
 
-    //delete Item
+    deleteItem: function (req, res) {
+        console.log("deleteItem", req.params.id)
+        Item.findOneAndDelete({ _id: req.params.id }, function (err, item) {
+            if (item) { console.log("deleteItem:", item) }
+            return res.json()
+        })
+    },
+
+    //check
 
     authenticate: function (req, res) {
         if (req.session.user == undefined) {

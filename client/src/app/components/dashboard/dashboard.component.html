@@ -3,8 +3,8 @@
   <!-- add a list deletion confirmation warning -->
   <!-- Need to fix navbar glitch -->
   <!-- error catch -->
-  <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
-    <div *ngIf="title.errors.minlength">
+  <div *ngIf="title.invalid && (title.dirty || title.touched)">
+    <div *ngIf="title.errors.minlength" class="alert alert-danger">
       List names must be at least 3 characters!
     </div>
   </div>

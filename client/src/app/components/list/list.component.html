@@ -1,6 +1,11 @@
 <app-navbar></app-navbar>
 <div class="paper container">
   <h3>{{myList.title}}</h3>
+  <div *ngIf="title.invalid && (title.dirty || title.touched)">
+    <div *ngIf="title.errors.minlength" class="alert alert-danger">
+      Item names must be at least 3 characters!
+    </div>
+  </div>
   <table class="table-hover">
     <thead>
       <tr>
@@ -9,8 +14,8 @@
         <td>
           <form (submit)="newItem()">
             <div class="form-group">
-              <input class="input-block" required placeholder="New Item" type="text" id="newItem" name="title" [(ngModel)]="myList.item"
-                #item="ngModel">
+              <input class="input-block" required minlength="1" placeholder="New Item" type="text" id="newItem" name="title" [(ngModel)]="item.title"
+                #title="ngModel">
               <input type="submit" class="hideSubmit">
             </div>
           </form>
@@ -18,16 +23,13 @@
 
       </tr>
     </thead>
-    <!-- example table row -->
-    <tr class="pointer title">
-      <td class="showClose">
-        <div class="red hideClose"><i class="fas fa-times"></i></div>
-        <div class="hideCloseX"><i class="fas fa-check"></i></div>
-      </td>
-      <td class="complete">Example</td>
-    </tr>
-    <!-- end example -->
-    <!-- replace with for loop from dashboard, change from list to item -->
+    <tbody *ngIf="listItems">
+      <tr *ngFor="let item of listItems" class="pointer title">
+        <td class="showClose"><i class="fas fa-times red hideClose" (click)="deleteItem(item._id)"></i></td>
+        <!-- replace the deleteList function with a modal that asks to confirm and offers the function instead -->
+        <td (click)="check(item._id)">{{item.title}}</td>
+      </tr>
+    </tbody>
   </table>
 </div>
 <app-footer></app-footer>
