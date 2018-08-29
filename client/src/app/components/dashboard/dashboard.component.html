@@ -1,3 +1,35 @@
-<p>
-  dashboard works!
-</p>
+<app-navbar></app-navbar>
+<div class="paper container">
+  <!-- add a list deletion confirmation warning -->
+  
+  <!-- error catch -->
+  <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
+    <div *ngIf="title.errors.minlength">
+      List names must be at least 3 characters!
+    </div>
+  </div>
+  
+  <!-- list creation and list of lists -->
+  <table class="table-hover">
+    <thead>
+      <tr>
+        <td align="center"><i class="fas fa-plus fa-3x flex-middle fade"></i></td>
+
+        <td>
+          <form (submit)="newList()">
+            <div class="form-group">
+              <input class="input-block" required minlength="3" placeholder="New List" type="text" id="newList" name="title" [(ngModel)]="list.title" #title="ngModel">
+                <input type="submit" class="hideSubmit">
+            </div>
+          </form>
+        </td>
+
+      </tr>
+    </thead>
+    <tr *ngFor="let list of myLists" class="pointer title">
+      <td class="showClose danger"><i class="fas fa-times hideClose" (click)="deleteList(list._id)"></i></td>
+      <!-- replace the deleteList function with a modal that asks to confirm and offers the function instead -->
+      <td (click)="viewList(list._id)">{{list.title}}</td>
+    </tr>
+  </table>
+</div>

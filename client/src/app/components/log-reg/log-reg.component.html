@@ -1,3 +1,92 @@
-<p>
-  log-reg works!
-</p>
+<div class="paper container greeting">
+  <h2 class="display-3">Welcome to Clean</h2>
+  <p>Clean is a simple productivity manager designed to make your life easier. </p>
+  <p>Create an account below to get started!</p>
+  <hr>
+
+  <div class="errorfield">
+    <div *ngIf="errorMessages.length >= 1" class="alert alert-danger">
+      <div *ngFor="let error of errorMessages">
+        <p>{{error}}</p>
+      </div>
+    </div>
+    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+      <div *ngIf="name.errors.required">
+        First Name is required!
+      </div>
+      <div *ngIf="name.errors.minlength">
+        First Name must be at least 2 characters long!
+      </div>
+      <div *ngIf="name.errors.maxlength">
+        First Name cannot be more than 15 characters long!
+      </div>
+    </div>
+    <div *ngIf="newEmail.invalid && (newEmail.dirty || newEmail.touched)" class="alert alert-danger">
+      <div *ngIf="newEmail.errors.required">
+        Email is required!
+      </div>
+      <div *ngIf="newEmail.errors.pattern">
+        Please enter a valid email!
+      </div>
+    </div>
+    <div *ngIf="newPassword.invalid && (newPassword.dirty || newPassword.touched)" class="alert alert-danger">
+      <div *ngIf="newPassword.errors.required">
+        Password is required!
+      </div>
+      <div *ngIf="newPassword.errors.pattern">
+        Password must be at least 8 characters long and contain one Uppercase, one lowercase and one numeric character!
+      </div>
+    </div>
+    <div *ngIf="confirm.invalid && (confirm.dirty || confirm.touched)" class="alert alert-danger">
+      <div *ngIf="confirm.errors.required">
+        You need to confirm your password!
+      </div>
+    </div>
+  </div>
+
+  <form (submit)="register()">
+    <div class="form-group">
+      <label for="name">What's Your Name?</label>
+      <input type="text" class="input-block" required minlength="2" maxlength="15" id="name" name="name" [(ngModel)]="newUser.name" #name="ngModel">
+    </div>
+    <div class="form-group">
+      <label for="newEmail">How About An Email?</label>
+      <input type="text" class="input-block" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$" id="newEmail" name="newEmail" [(ngModel)]="newUser.email" #newEmail="ngModel">
+    </div>
+    <div class="form-group">
+      <label for="newPasssword">Pick a Password</label>
+      <input type="password" class="input-block" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="newPassword" name="newPassword" [(ngModel)]="newUser.password" #newPassword="ngModel">
+    </div>
+    <div class="form-group">
+      <label for="confirm">Let's Confirm It</label>
+      <input type="password" class="input-block" required  id="confirm" name="confirm" [(ngModel)]="newUser.confirm" #confirm="ngModel">
+    </div>
+    <input type="submit" value="Register" class="paper-btn margin">
+  </form>
+  <div class="row flex-spaces child-borders">
+    <label class="paper-btn margin" for="login">Already a user? Log In!</label>
+  </div>
+
+  <!-- login modal -->
+  <input class="modal-state" id="login" type="checkbox">
+  <div class="modal">
+    <label class="modal-bg" for="login"></label>
+    <div class="modal-body">
+      <label class="btn-close" for="login">X</label>
+      <h4 class="modal-title">Log In!</h4>
+      <!-- <div *ngIf="errorMessages.length > 0" class="alert alert-danger">{{error}}</div> -->
+      <form (submit)="login()">
+        <div class="form-group">
+          <label for="email">What's Your Email?</label>
+          <input type="email" class="input-block" id="email" name="email" [(ngModel)]="user.email" #email="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="passsword">What's Your Password?</label>
+          <input type="password" class="input-block" id="password" name="password" [(ngModel)]="user.password" #password="ngModel">
+        </div>
+        <input type="submit" value="Log In" class="pointer paper-btn margin">
+      </form>
+    </div>
+  </div>
+
+</div> <!-- end container-->

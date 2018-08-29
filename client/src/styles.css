@@ -1,4 +1,64 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300|Raleway:300');
+html{
+  background-color:#2a2a2a ;
+}
+*{
+  align-content: center;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.paper.container{
+  margin-top:80px;
+}
+
+.hideSubmit{
+  display: none;
+}
+#newList{
+  border:none;
+  margin-top:3%;
+  font-size:40px;
+}
+#newItem{
+  border:none;
+  margin-top:3%;
+  font-size:40px;
+}
+td{
+  text-align:right;
+}
+.title{
+  font-size:35px;
+}
+.hideClose{
+  display:none;
+}
+.hideCloseX{
+  display:none;
+}
+.showClose:hover .hideClose{
+  display: block;
+}
+.complete:hover .hideCloseX{
+  display: block;
+}
+/* .fade{
+  opacity: 0.5;
+  filter: alpha(opacity=50)
+}
+#newList:hover .fade{
+  display:none;
+} */
+
+
+/* loading spinner */
 .lds-ellipsis {
     display: inline-block;
     position: relative;
@@ -55,3 +115,5 @@
     }
   }
   
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Roboto', sans-serif; }

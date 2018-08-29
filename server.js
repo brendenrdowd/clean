@@ -2,16 +2,17 @@ const express = require("express"),
   app = express(),
   path = require("path"),
   bP = require("body-parser"),
-  port = process.env.PORT || 8002,
-  session = require("express-session");
+  port = process.env.PORT || 8005,
+  session = require("express-session"),
+  dotenv=require('dotenv').config();
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(express.static(path.join(__dirname, "/client/dist/client")));
 app.use(bP.json());
 app.use(session({secret:process.env.SECRET, saveUninitialized: true}));
 
-//comment out until mongoose & routes files are built else error
-//require("./server/config/mongoose.js");
-//require("./server/config/routes.js")(app); //importing app and running it immediately
+
+const database = require("./server/config/mongoose.js");
+require("./server/config/routes.js")(app);
 
 app.listen(port, function(){
 	console.log("listening on port:" + port);

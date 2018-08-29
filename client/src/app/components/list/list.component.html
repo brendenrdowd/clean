@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+<div class="paper container">
+  <h3>{{myList.title}}</h3>
+  <table class="table-hover">
+    <thead>
+      <tr>
+        <td align="center"><i class="fas fa-plus fa-3x flex-middle fade"></i></td>
+
+        <td>
+          <form (submit)="newItem()">
+            <div class="form-group">
+              <input class="input-block" required placeholder="New Item" type="text" id="newItem" name="title" [(ngModel)]="myList.item"
+                #item="ngModel">
+              <input type="submit" class="hideSubmit">
+            </div>
+          </form>
+        </td>
+
+      </tr>
+    </thead>
+    <!-- example table row -->
+    <tr class="pointer title">
+      <td class="showClose">
+        <div class="red hideClose"><i class="fas fa-times"></i></div>
+        <div class="hideCloseX"><i class="fas fa-check"></i></div>
+      </td>
+      <td class="complete">Example</td>
+    </tr>
+    <!-- end example -->
+    <!-- replace with for loop from dashboard, change from list to item -->
+  </table>
+</div>

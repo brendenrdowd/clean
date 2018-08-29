@@ -1,0 +1,9 @@
+.table-hover tbody tr:hover {
+    color: green;
+}
+input[type='text']{
+    text-align:right;
+}
+.red{
+    color:red;
+}
