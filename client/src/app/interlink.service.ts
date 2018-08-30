@@ -58,7 +58,6 @@ export class InterlinkService {
   viewList(id) {
     this._http.get('/viewList/' + id).subscribe((res) => {
       this.list = res.json();
-      console.log("viewList-back in service:", this.list)
       localStorage.setItem("list", JSON.stringify(this.list));
       this._router.navigate(['list'])
     })
@@ -71,28 +70,34 @@ export class InterlinkService {
     })
   }
 
+  updateList(cb) {
+    // console.log("updateList-list:", this.list)
+    this._http.get('/viewList/' + this.list['_id']).subscribe((res) => {
+      this.list = res.json();
+      localStorage.setItem("list", JSON.stringify(this.list));
+      cb()
+    })
+  }
+
   newItem(item, cb) {
     this._http.post('/newItem', item).subscribe((res) => {
       cb(res.json())
     })
   }
 
-
+  
   deleteItem(id, cb) {
-    console.log("deleteItem-service:", this.list)
     this._http.get('/deleteItem/' + id).subscribe((res) => {
       cb();
     })
   }
-
-  updateList(cb) {
-    console.log("updateList-list:", this.list)
-    this.viewList(this.list['_id']);
-    console.log("newItem-after update", this.list)
-    cb()
+  
+  check(id, cb) {
+    this._http.get('/check/' + id).subscribe((res) => {
+      cb()
+    })
   }
 
-  //check
 
   authenticate(cb) {
     this._http.get('/authenticate').subscribe((res) => {

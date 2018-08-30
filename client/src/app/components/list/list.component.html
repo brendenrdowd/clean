@@ -14,7 +14,7 @@
         <td>
           <form (submit)="newItem()">
             <div class="form-group">
-              <input class="input-block" required minlength="1" placeholder="New Item" type="text" id="newItem" name="title" [(ngModel)]="item.title"
+              <input class="input-block" required minlength="3" placeholder="New Item" type="text" id="newItem" name="title" [(ngModel)]="item.title"
                 #title="ngModel">
               <input type="submit" class="hideSubmit">
             </div>
@@ -27,7 +27,8 @@
       <tr *ngFor="let item of listItems" class="pointer title">
         <td class="showClose"><i class="fas fa-times red hideClose" (click)="deleteItem(item._id)"></i></td>
         <!-- replace the deleteList function with a modal that asks to confirm and offers the function instead -->
-        <td (click)="check(item._id)">{{item.title}}</td>
+        <td *ngIf="item.checked" class="crossed" (click)="check(item._id)">{{item.title}}</td>
+        <td *ngIf="!item.checked" (click)="check(item._id)">{{item.title}}</td>
       </tr>
     </tbody>
   </table>

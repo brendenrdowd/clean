@@ -15,7 +15,11 @@ module.exports = function(app){
 
     app.post('/newItem',(req,res)=>{
         Prime.newItem(req,res);
-    })          
+    })  
+    
+    app.get('/check/:id',(req,res)=>{
+        Prime.check(req,res);
+    })
 
     app.get('/getLists',(req,res)=>{
         Prime.getLists(req,res);
@@ -33,7 +37,6 @@ module.exports = function(app){
         Prime.deleteItem(req,res);
     })
 
-    //check
     
     //universal functions
     app.get('/authenticate',(req,res)=>{
@@ -43,6 +46,6 @@ module.exports = function(app){
         Prime.logout(req,res);
     })
 	app.all('*', (req,res)=>{
-        res.sendFile(path.resolve('./client/dist/client/index.html'))
+        res.sendFile(path.resolve('./client/dist/client/index.html'));
     })
 }

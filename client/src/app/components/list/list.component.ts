@@ -19,15 +19,14 @@ export class ListComponent implements OnInit {
     }
     this.item = {
       title: "",
-      checked: false,
+      checked: Boolean,
       _list: ""
     }
   }
   
   newItem(){
-    if(this.item['title'].length >=1){
+    if(this.item['title'].length > 2){
       this._interlink.newItem(this.item,(res)=>{
-        console.log("newItem-back in component:",res)
         this.item['title'] = ""
         this._interlink.updateList(()=>{
           this.myList = this._interlink.list;
@@ -39,15 +38,21 @@ export class ListComponent implements OnInit {
 
   deleteItem(id){
     this._interlink.deleteItem(id,()=>{
-      console.log("deleteItem-back in component")
-        this._interlink.updateList(()=>{ //this is important, its forcing a rerender, but not immediately after? why?
+        this._interlink.updateList(()=>{
           this.myList = this._interlink.list;
           this.listItems = this.myList['items'];
         })
     });
   }
 
-  //check
+  check(id){
+    this._interlink.check(id,()=>{
+      this._interlink.updateList(()=>{
+        this.myList = this._interlink.list;
+        this.listItems = this.myList['items'];
+      })
+    })
+  }
   
   ngOnInit() {
     this._interlink.authenticate((data) => {

@@ -44,9 +44,9 @@ module.exports = {
     },
 
     newList: function (req, res) {
-        User.findOne({ _id: req.session.user._id }, function (err, user) {
+        User.findOne({ _id: req.session.user._id }, (err, user) => {
             if (err) { console.log("List-Creation User Error:", err) }
-            List.create({ creator: user._id, title: req.body.title }, function (error, list) {
+            List.create({ creator: user._id, title: req.body.title }, (error, list) => {
                 if (error) { console.log("List Creation-Error:", err) }
                 user.lists.push(list._id)
                 user.save()
@@ -56,31 +56,35 @@ module.exports = {
     },
 
     getLists: function (req, res) {
-        List.find({ creator: req.session.user._id }).exec(function (err, lists) {
-            // console.log("controller-user lists:",lists)
+        List.find({ creator: req.session.user._id }).exec((err, lists) => {
             return res.json(lists)
         })
     },
 
     viewList: function (req, res) {
-        List.findOne({ _id: req.params.id }).populate('items').exec(function (err, list) {
+        List.findOne({ _id: req.params.id }).populate('items').exec((err, list) => {
             return res.json(list);
         })
     },
 
     deleteList: function (req, res) {
-        console.log("deleteList", req.params.id)
-        List.findOneAndDelete({ _id: req.params.id }, function (err, list) {
+        List.findById(req.params.id).populate('items').exec((err,list)=>{
+            for(let item of list.items){
+                Item.findOneAndDelete({_id:item._id},(error,i)=>{
+                    if(err){console.log("Loop Error:",error)}
+                })
+            }
+        });
+        List.findOneAndDelete({ _id: req.params.id }, (err, list) => {
             if (list) { console.log("deleteList:", list) }
             return res.json()
-        })
+        });
     },
 
     newItem: function (req, res) {
-        console.log("create item:", req.body)
-        List.findOne({ _id: req.body._list }).exec(function (err, list) {
+        List.findOne({ _id: req.body._list }).exec((err, list) => {
             if (err) { console.log("Item-List-Error:", err) }
-            Item.create({ title: req.body.title, _list: list._id, checked: false, creator: req.session.user._id }, function (error, item) {
+            Item.create({ title: req.body.title, _list: list._id, checked: false, creator: req.session.user._id }, (error, item) => {
                 if (error) { console.log("Item-creation Error:", error) } 
                 list.items.push(item);
                 list.save(); 
@@ -90,14 +94,19 @@ module.exports = {
     },
 
     deleteItem: function (req, res) {
-        console.log("deleteItem", req.params.id)
-        Item.findOneAndDelete({ _id: req.params.id }, function (err, item) {
+        Item.findOneAndDelete({ _id: req.params.id }, (err, item) => {
             if (item) { console.log("deleteItem:", item) }
             return res.json()
         })
     },
 
-    //check
+    check: function (req,res) {
+        Item.findOne({_id:req.params.id}).exec((err,item)=>{
+            item.checked = !item.checked;
+            item.save();
+            return res.json();
+        })
+    },
 
     authenticate: function (req, res) {
         if (req.session.user == undefined) {
