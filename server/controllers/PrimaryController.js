@@ -3,23 +3,29 @@ const mongoose = require("mongoose"),
     List = mongoose.model('List'),
     Item = mongoose.model('Item');
 
-//import bcrypt and hash passwords
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 module.exports = {
     register: function (req, res) {
         User.findOne({ email: req.body.email }, (err, user) => {
             if (err) { console.log("Register-Error", err) }
             if (!user) {
-                let name = req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1)
-                User.create({ name: name, email: req.body.email, password: req.body.password }, (err, newuser) => {
-                    if (err) {
-                        console.log(" User Creation-Error:", err)
-                    } else {
-                        req.session.user = newuser;
-                        //remove password from return object for security reasons
-                        return res.json(newuser)
-                    }
-                })
+                let name = req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1);
+                bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+                    User.create({ name: name, email: req.body.email, password: hash }, (err, newuser) => {
+                        if (err) {
+                            console.log(" User Creation-Error:", err)
+                        } else {
+                            req.session.user = {
+                                _id: newuser._id,
+                                name: newuser.name,
+                                lists: newuser.lists
+                            };
+                            return res.json(req.session.user)
+                        }
+                    })
+                });
             } else {
                 return res.json(null)
             }
@@ -32,13 +38,18 @@ module.exports = {
             if (!user) {
                 return res.json(null)
             } else {
-                if (user.password == req.body.password) {
-                    req.session.user = user;
-                    //remove password from return object for security reasons
-                    return res.json(user);
-                } else {
-                    return res.json(null)
-                }
+                bcrypt.compare(req.body.password, user.password, function (err, result) {
+                    if (result) {
+                        req.session.user = {
+                            _id: user._id,
+                            name: user.name,
+                            lists: user.lists
+                        };
+                        return res.json(req.session.user)
+                    } else {
+                        return res.json(null)
+                    }
+                });
             }
         })
     },
@@ -68,10 +79,10 @@ module.exports = {
     },
 
     deleteList: function (req, res) {
-        List.findById(req.params.id).populate('items').exec((err,list)=>{
-            for(let item of list.items){
-                Item.findOneAndDelete({_id:item._id},(error,i)=>{
-                    if(err){console.log("Loop Error:",error)}
+        List.findById(req.params.id).populate('items').exec((err, list) => {
+            for (let item of list.items) {
+                Item.findOneAndDelete({ _id: item._id }, (error, i) => {
+                    if (err) { console.log("Loop Error:", error) }
                 })
             }
         });
@@ -85,9 +96,9 @@ module.exports = {
         List.findOne({ _id: req.body._list }).exec((err, list) => {
             if (err) { console.log("Item-List-Error:", err) }
             Item.create({ title: req.body.title, _list: list._id, checked: false, creator: req.session.user._id }, (error, item) => {
-                if (error) { console.log("Item-creation Error:", error) } 
+                if (error) { console.log("Item-creation Error:", error) }
                 list.items.push(item);
-                list.save(); 
+                list.save();
                 return res.json(item);
             })
         })
@@ -100,8 +111,8 @@ module.exports = {
         })
     },
 
-    check: function (req,res) {
-        Item.findOne({_id:req.params.id}).exec((err,item)=>{
+    check: function (req, res) {
+        Item.findOne({ _id: req.params.id }).exec((err, item) => {
             item.checked = !item.checked;
             item.save();
             return res.json();

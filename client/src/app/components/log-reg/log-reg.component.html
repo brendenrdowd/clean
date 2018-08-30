@@ -77,7 +77,11 @@
     <div class="modal-body">
       <label class="btn-close" for="login">X</label>
       <h4 class="modal-title">Log In!</h4>
-      <!-- <div *ngIf="errorMessages.length > 0" class="alert alert-danger">{{error}}</div> -->
+      <div *ngIf="errorMessages.length >= 1" class="alert alert-danger">
+          <div *ngFor="let error of errorMessages">
+            <p>{{error}}</p>
+          </div>
+        </div>
       <form (submit)="login()">
         <div class="form-group">
           <label for="email">What's Your Email?</label>
