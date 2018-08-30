@@ -6,7 +6,7 @@ const express = require("express"),
   session = require("express-session"),
   dotenv=require('dotenv').config();
 
-app.use('/client',express.static(path.join(__dirname, "client")));
+app.use(express.static(path.join(__dirname, "/client/dist/client")));
 app.use(bP.json());
 app.use(session({secret:process.env.SECRET, saveUninitialized: true}));
 
