@@ -3,11 +3,7 @@ const mongoose = require("mongoose"),
     fs = require("fs"), //file system, allows us to read or write files
     mp = path.join(__dirname, './../models'); //mp = models path
 
-let mongoUrl = 'mongodb://localhost/todolist_db';
-
-mongoose.connect(mongoUrl, err => {
-    console.log(err || `MongoDB connected at ${mongoUrl}`);
-})
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/todolist_db')
 
 // mongoose.connect('mongodb://localhost/todolist_db');
 
