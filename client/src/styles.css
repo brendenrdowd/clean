@@ -33,6 +33,7 @@ html{
 }
 td{
   text-align:right;
+  word-wrap:break-word;
 }
 .title{
   font-size:35px;

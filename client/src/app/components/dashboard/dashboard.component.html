@@ -7,8 +7,11 @@
     <div *ngIf="title.errors.minlength" class="alert alert-danger">
       List names must be at least 3 characters!
     </div>
+    <div *ngIf="title.errors.maxlength" class="alert alert-danger">
+      List names cannot be more than 55 characters!
+    </div>
   </div>
-  
+
   <!-- list creation and list of lists -->
   <table class="table-hover">
     <thead>
@@ -18,8 +21,9 @@
         <td>
           <form (submit)="newList()">
             <div class="form-group">
-              <input class="input-block" required minlength="3" placeholder="New List" type="text" id="newList" name="title" [(ngModel)]="list.title" #title="ngModel">
-                <input type="submit" class="hideSubmit">
+              <input class="input-block" required minlength="3" maxlength="55" placeholder="New List" type="text" id="newList" name="title"
+                [(ngModel)]="list.title" #title="ngModel">
+              <input type="submit" class="hideSubmit">
             </div>
           </form>
         </td>

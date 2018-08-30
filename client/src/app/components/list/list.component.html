@@ -5,6 +5,9 @@
     <div *ngIf="title.errors.minlength" class="alert alert-danger">
       Item names must be at least 3 characters!
     </div>
+    <div *ngIf="title.errors.maxlength" class="alert alert-danger">
+      Item names cannot be more than 55 characters!
+    </div>
   </div>
   <table class="table-hover">
     <thead>
@@ -14,8 +17,8 @@
         <td>
           <form (submit)="newItem()">
             <div class="form-group">
-              <input class="input-block" required minlength="3" placeholder="New Item" type="text" id="newItem" name="title" [(ngModel)]="item.title"
-                #title="ngModel">
+              <input class="input-block" required minlength="3" maxlength="55" placeholder="New Item" type="text" id="newItem" name="title"
+                [(ngModel)]="item.title" #title="ngModel">
               <input type="submit" class="hideSubmit">
             </div>
           </form>
