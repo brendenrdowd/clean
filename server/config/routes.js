@@ -46,6 +46,6 @@ module.exports = function(app){
         Prime.logout(req,res);
     })
 	app.all('*', (req,res)=>{
-        res.sendFile(path.resolve('./client/dist/client/index.html'));
+        res.sendFile(path.resolve('./dist/index.html'));
     })
 }
