@@ -57,6 +57,24 @@ td{
 #newList:hover .fade{
   display:none;
 } */
+@media only screen and (min-device-width: 770px){
+  .mobile{
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 770px) {
+  .nav-brand{
+      display:none;
+  }
+  nav{
+      background:none;
+      border:none;
+  }
+  .paper.container{
+      margin-top:100px;
+  }
+}
 
 
 /* loading spinner */
