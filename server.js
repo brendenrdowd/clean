@@ -14,7 +14,7 @@ app.use(bP.json());
 app.use(session({ secret: process.env.SECRET, saveUninitialized: true }));
 
 
-const database = require("./server/config/mongoose.js");
+require("./server/config/mongoose.js");
 require("./server/config/routes.js")(app);
 
 app.listen(port, function () {
