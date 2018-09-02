@@ -74,6 +74,9 @@ td{
   .paper.container{
       margin-top:100px;
   }
+  .hideClose{
+    display:initial;
+  }
 }
 
 
