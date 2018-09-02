@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = function(app){
     //log-reg functions
     app.post('/register', (req,res)=>{
+        console.log("hitting register route")
         Prime.register(req,res);
     })
     app.post('/login', (req,res)=>{
