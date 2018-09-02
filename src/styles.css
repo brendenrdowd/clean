@@ -76,6 +76,9 @@ td{
   .hideClose{
     display:initial;
   }
+  .webOnly{
+    display:none;
+  }
 }
 
 
