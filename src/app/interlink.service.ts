@@ -20,7 +20,7 @@ export class InterlinkService {
   login(user, cb) {
     this.errorMessage = null;
     this.errorArr = [];
-    this._http.post('login', user).subscribe((res) => {
+    this._http.post('/login', user).subscribe((res) => {
       if (res.json() == null) {
         this.errorMessage = "You have entered an invalid username or password";
         this.errorArr.push(this.errorMessage)
